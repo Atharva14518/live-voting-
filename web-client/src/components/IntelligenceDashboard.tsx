@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Brain, BarChart3, RefreshCw, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { Brain, BarChart3, RefreshCw, AlertTriangle, CheckCircle } from 'lucide-react';
+
+const API_URL = import.meta.env.VITE_API_URL || '${API_URL}';
 
 interface Classification {
     label: string;
@@ -34,8 +36,8 @@ export function IntelligenceDashboard() {
     const fetchData = async () => {
         try {
             const [classRes, statsRes] = await Promise.all([
-                fetch('http://localhost:3000/api/intelligence/classify-all'),
-                fetch('http://localhost:3000/api/analytics/stats')
+                fetch('${API_URL}/api/intelligence/classify-all'),
+                fetch('${API_URL}/api/analytics/stats')
             ]);
             const classData = await classRes.json();
             const statsData = await statsRes.json();
@@ -57,7 +59,7 @@ export function IntelligenceDashboard() {
     const handleRetrain = async () => {
         setTraining(true);
         try {
-            await fetch('http://localhost:3000/api/intelligence/train', { method: 'POST' });
+            await fetch('${API_URL}/api/intelligence/train', { method: 'POST' });
             await fetchData();
         } catch (err) {
             alert('Training failed');

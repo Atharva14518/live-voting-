@@ -1,5 +1,7 @@
 import { useState, useEffect, createContext, useContext, type ReactNode } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 interface User {
     id: string;
     username: string;
@@ -25,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         if (token) {
-            fetch('http://localhost:3000/api/auth/me', {
+            fetch(`${API_URL}/api/auth/me`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
                 .then(res => res.json())
@@ -48,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const login = async (username: string, password: string) => {
         try {
-            const res = await fetch('http://localhost:3000/api/auth/login', {
+            const res = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -67,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const register = async (username: string, password: string) => {
         try {
-            const res = await fetch('http://localhost:3000/api/auth/register', {
+            const res = await fetch(`${API_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -91,7 +93,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const registerWithCaptcha = async (username: string, password: string, captchaId: string, captchaAnswer: string) => {
         try {
-            const res = await fetch('http://localhost:3000/api/auth/register', {
+            const res = await fetch(`${API_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password, captchaId, captchaAnswer })

@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ThumbsUp, TrendingUp, AlertTriangle, X, FileText, ShieldCheck, Activity } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+const API_URL = import.meta.env.VITE_API_URL || '${API_URL}';
+
 interface Proposal {
     id: string;
     title: string;
@@ -38,8 +40,8 @@ export function Dashboard() {
     const fetchData = async () => {
         try {
             const [propsRes, logsRes] = await Promise.all([
-                fetch('http://localhost:3000/api/rankings'),
-                fetch('http://localhost:3000/api/analytics/logs')
+                fetch('${API_URL}/api/rankings'),
+                fetch('${API_URL}/api/analytics/logs')
             ]);
 
             const propsData = await propsRes.json();
@@ -64,7 +66,7 @@ export function Dashboard() {
     const handleVote = async (proposalId: string) => {
         try {
             const userId = user?.id || 'USER_DEMO';
-            const res = await fetch('http://localhost:3000/api/vote', {
+            const res = await fetch('${API_URL}/api/vote', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId, proposalId }),
@@ -84,7 +86,7 @@ export function Dashboard() {
     const handleCreateProposal = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:3000/api/proposals', {
+            const res = await fetch('${API_URL}/api/proposals', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
