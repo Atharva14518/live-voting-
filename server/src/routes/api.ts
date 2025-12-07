@@ -26,16 +26,29 @@ const ensembleClassifier = new EnsembleClassifier();
 // Pending CAPTCHA verifications for votes
 const pendingVoteCaptchas = new Map<string, { proposalId: string; userId: string; captchaId: string }>();
 
-// Initialize demo user
-const demoUser: User = {
-    id: 'USER_DEMO',
-    username: 'demo_user',
-    registeredAt: Date.now(),
-    trustScore: 1.0,
-    voteHistory: [],
-    passwordHash: authService.hashPassword('demo123')
-};
-users.set(demoUser.id, demoUser);
+// Initialize demo users with known credentials
+// DEMO ACCOUNTS:
+// - demo / demo123
+// - admin / admin123
+// - test / test123
+const demoUsers = [
+    { id: 'USER_DEMO', username: 'demo', password: 'demo123', trustScore: 1.0 },
+    { id: 'USER_ADMIN', username: 'admin', password: 'admin123', trustScore: 1.0 },
+    { id: 'USER_TEST', username: 'test', password: 'test123', trustScore: 0.9 },
+];
+
+demoUsers.forEach(u => {
+    const user: User = {
+        id: u.id,
+        username: u.username,
+        registeredAt: Date.now(),
+        trustScore: u.trustScore,
+        voteHistory: [],
+        passwordHash: authService.hashPassword(u.password)
+    };
+    users.set(u.id, user);
+});
+console.log(`✓ Created ${demoUsers.length} demo users (demo/demo123, admin/admin123, test/test123)`);
 
 // Initialize seed proposals for ML training
 const seedProposals = [
