@@ -28,10 +28,10 @@ export class AdvancedAntiBot {
     // Suspicious IPs (detected bots)
     private suspiciousIPs: Set<string> = new Set();
 
-    // Config
+    // Config - Production-friendly settings
     private readonly RATE_LIMIT_WINDOW = 60000; // 1 minute
-    private readonly MAX_REQUESTS_PER_WINDOW = 200; // Increased to support frontend polling
-    private readonly BLOCK_DURATION = 300000; // 5 minutes
+    private readonly MAX_REQUESTS_PER_WINDOW = 1000; // Very high for production frontend polling
+    private readonly BLOCK_DURATION = 30000; // 30 seconds block (reduced from 5 minutes)
     private readonly CAPTCHA_EXPIRY = 120000; // 2 minutes
     private readonly MAX_CAPTCHA_ATTEMPTS = 3;
 
