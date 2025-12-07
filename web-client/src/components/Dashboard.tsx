@@ -28,7 +28,7 @@ export function Dashboard() {
     const [proposals, setProposals] = useState<Proposal[]>([]);
     const [logs, setLogs] = useState<LogEntry[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+    const [error] = useState('');
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showLogsModal, setShowLogsModal] = useState(false);
 
